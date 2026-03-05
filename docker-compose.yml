@@ -1,0 +1,16 @@
+services:
+  lab:
+    image: ${NVIDIA_PYTORCH_IMAGE}
+    container_name: pytorch-lab
+    runtime: nvidia
+    user: "${UID:-1000}:${GID:-1000}"
+    working_dir: /workspace
+    volumes:
+      - ${HOST_WORKSPACE:-.}:/workspace
+    ports:
+      - "8888:8888"
+    shm_size: "16gb"
+    stdin_open: true
+    tty: true
+    gpus: all
+    command: sleep infinity
