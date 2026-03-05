@@ -22,6 +22,7 @@ cp .env.template .env
 make check-host
 docker login nvcr.io
 make up
+make deps
 make run
 make test
 make notebook
@@ -33,6 +34,7 @@ make notebook
 - `make up`: 컨테이너 백그라운드 실행
 - `make down`: 컨테이너 종료
 - `make logs`: 컨테이너 로그 확인
+- `make deps`: `requirements.txt` 의존성 설치
 - `make run`: 고정 엔트리포인트 `src/entrypoint.py` 실행
 - `make test`: 고정 테스트 엔트리포인트 `tests/test_entrypoint.py` 실행
 - `make notebook`: 고정 노트북 엔트리포인트 `notebooks/entrypoint.ipynb` 실행
@@ -51,6 +53,7 @@ make notebook
 ├── .gitignore
 ├── docker-compose.yml
 ├── Makefile
+├── requirements.txt
 ├── notebooks/
 │   └── entrypoint.ipynb
 ├── scripts/

@@ -9,6 +9,7 @@
 - [ ] `make check-host`로 Docker/NVIDIA 상태 확인
 - [ ] `docker login nvcr.io` 완료
 - [ ] `make up` 실행
+- [ ] `requirements.txt` 정리 후 `make deps` 실행
 - [ ] `make run` 실행 (`src/entrypoint.py`)
 - [ ] `make test` 실행 (`tests/test_entrypoint.py`)
 - [ ] `make notebook` 실행 (`notebooks/entrypoint.ipynb`)

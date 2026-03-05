@@ -1,4 +1,4 @@
-.PHONY: shell up down logs local-venv check-host run test notebook
+.PHONY: shell up down logs local-venv check-host deps run test notebook
 
 RUN_ENTRYPOINT := src/entrypoint.py
 TEST_ENTRYPOINT := tests/test_entrypoint.py
@@ -24,6 +24,9 @@ local-venv:
 
 check-host:
 	bash scripts/check_host.sh
+
+deps:
+	bash scripts/run_container.sh pip install -r requirements.txt
 
 run:
 	bash scripts/run_container.sh python $(RUN_ENTRYPOINT)
