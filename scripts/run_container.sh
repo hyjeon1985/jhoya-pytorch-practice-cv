@@ -1,13 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ ! -f .env && -f .env.example ]]; then
-  cp .env.example .env
-  echo "[info] .env was missing, created from .env.example"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+cd "${REPO_ROOT}"
+
+if [[ ! -f "${REPO_ROOT}/.env" ]]; then
+  if [[ -f "${REPO_ROOT}/.env.template" ]]; then
+    cp "${REPO_ROOT}/.env.template" "${REPO_ROOT}/.env"
+    echo "[info] .env was missing, created from .env.template"
+  else
+    echo "[error] .env.template not found at ${REPO_ROOT}/.env.template" >&2
+    exit 1
+  fi
 fi
 
-export UID="$(id -u)"
-export GID="$(id -g)"
+export HOST_UID="$(id -u)"
+export HOST_GID="$(id -g)"
 
 docker compose up -d lab
-docker compose exec lab bash
+
+if [[ $# -eq 0 ]]; then
+  docker compose exec lab bash
+else
+  docker compose exec -T -e PYTHONPATH=/workspace lab "$@"
+fi

@@ -18,17 +18,13 @@
 ## 새로 만든 저장소에서 최초 1회 실행
 
 ```bash
-cp .env.example .env
+cp .env.template .env
 make check-host
 docker login nvcr.io
-make shell
-```
-
-컨테이너 안에서:
-
-```bash
-python src/smoke.py
-pytest -q
+make up
+make run
+make test
+make notebook
 ```
 
 ## 자주 쓰는 명령
@@ -37,6 +33,9 @@ pytest -q
 - `make up`: 컨테이너 백그라운드 실행
 - `make down`: 컨테이너 종료
 - `make logs`: 컨테이너 로그 확인
+- `make run`: 고정 엔트리포인트 `src/entrypoint.py` 실행
+- `make test`: 고정 테스트 엔트리포인트 `tests/test_entrypoint.py` 실행
+- `make notebook`: 고정 노트북 엔트리포인트 `notebooks/entrypoint.ipynb` 실행
 - `make check-host`: 호스트에서 Docker/NVIDIA 상태 점검
 - `make local-venv`: 로컬 venv 보조 환경 구성
 
@@ -48,25 +47,29 @@ pytest -q
 
 ```text
 .
-├── .env.example
+├── .env.template
 ├── .gitignore
 ├── docker-compose.yml
 ├── Makefile
 ├── notebooks/
+│   └── entrypoint.ipynb
 ├── scripts/
 │   ├── check_host.sh
 │   ├── run_container.sh
 │   └── setup_local_venv.sh
 ├── src/
+│   ├── __init__.py
+│   ├── entrypoint.py
 │   └── smoke.py
 └── tests/
+    ├── test_entrypoint.py
     └── test_smoke_import.py
 ```
 
 ## 설정 포인트
 
-- 컨테이너 이미지 태그: `.env.example`의 `NVIDIA_PYTORCH_IMAGE`
-- 워크스페이스 마운트 경로: `.env.example`의 `HOST_WORKSPACE`
+- 컨테이너 이미지 태그: `.env.template`의 `NVIDIA_PYTORCH_IMAGE`
+- 워크스페이스 마운트 경로: `.env.template`의 `HOST_WORKSPACE` (`.` 기본값으로 레포 루트 마운트)
 - Jupyter 사용 시: 컨테이너 내부에서 `jupyter lab --ip=0.0.0.0 --port=8888 --no-browser`
 
 ## 참고

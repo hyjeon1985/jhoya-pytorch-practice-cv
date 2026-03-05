@@ -1,10 +1,11 @@
 services:
   lab:
     image: ${NVIDIA_PYTORCH_IMAGE}
-    container_name: pytorch-lab
     runtime: nvidia
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
     working_dir: /workspace
+    environment:
+      - HOME=/workspace
     volumes:
       - ${HOST_WORKSPACE:-.}:/workspace
     ports:
