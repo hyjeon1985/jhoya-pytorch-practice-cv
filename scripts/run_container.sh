@@ -24,5 +24,5 @@ docker compose up -d lab
 if [[ $# -eq 0 ]]; then
   docker compose exec lab bash
 else
-  docker compose exec -T -e PYTHONPATH=/workspace lab "$@"
+  docker compose exec -T -e PYTHONPATH=/workspace/src:/workspace lab "$@"
 fi
